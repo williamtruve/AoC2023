@@ -50,3 +50,27 @@ def get_neighbors_with_diagonal_wrap_around(row, col, grid):
         ((row + 1) % rows, (col + 1) % cols),  # Down-Right with wrap around
     ])
     return neighbors
+def rotate_matrix_90_clockwise(matrix):
+    # Transpose the matrix
+    transposed_matrix = [list(row) for row in zip(*matrix)]
+
+    # Reverse each row to get the final rotated matrix
+    rotated_matrix = [list(reversed(row)) for row in transposed_matrix]
+
+    return rotated_matrix
+import networkx as nx
+
+# Create a graph
+G = nx.Graph()
+G.add_edge('A', 'B', weight=4)
+G.add_edge('A', 'C', weight=2)
+G.add_edge('B', 'C', weight=5)
+G.add_edge('B', 'D', weight=10)
+G.add_edge('C', 'D', weight=3)
+
+# Find the shortest path from 'A' to 'D'
+shortest_path = nx.shortest_path(G, source='A', target='D', weight='weight')
+
+shortest_path = nx.shortest_path_length(G, source='A', target='D', weight='weight')
+
+
