@@ -2,7 +2,7 @@ from collections import defaultdict
 from aocd import get_data, submit
 import re
 import numpy as np
-from aocutils import *
+from utils.aocutils import *
 ERROR = False
 
 data = get_data(day=4, year=2023).splitlines()

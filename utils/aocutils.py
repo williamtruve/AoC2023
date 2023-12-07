@@ -61,7 +61,8 @@ def rotate_matrix_90_clockwise(matrix):
 import networkx as nx
 
 # Create a graph
-G = nx.Graph()
+G = nx.DiGraph()
+
 G.add_edge('A', 'B', weight=4)
 G.add_edge('A', 'C', weight=2)
 G.add_edge('B', 'C', weight=5)

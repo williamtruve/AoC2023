@@ -2,7 +2,7 @@ from collections import defaultdict
 from aocd import get_data, submit
 import re
 import numpy as np
-from aocutils import *
+from utils.aocutils import *
 data = get_data(day=3, year=2023)
 #data = open("day3/test.txt", "r").read()
 

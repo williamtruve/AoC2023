@@ -14,5 +14,5 @@ matches = re.findall(pattern, data)
 print()
 matches = re.finditer(pattern, data)
 for it in matches:
-    print(ma)
+    print(it)
 print("matches = ", matches)
