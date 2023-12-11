@@ -2,12 +2,13 @@ from collections import defaultdict
 from aocd import get_data, submit
 import re
 import numpy as np
+from sympy import false
 ERROR = False
 import sys
 from tqdm import tqdm
 data = open("day7/input.txt","r").readlines()
 
-#data = open("day7/test.txt","r").readlines()
+data = open("day7/test.txt","r").readlines()
 noWins = []
 onePairs = []
 twoPairs = []
@@ -16,29 +17,30 @@ full_house  = []
 four_of_a_kind = []
 five_of_a_kind = []
 
-def addHandToRankSet(handDict):
+def addHandToRankSet(handDict, p2 = True ):
     hand = handDict['hand']
-    countJs = 0
-    for j in hand:
-        if j == 'J':
-            countJs += 1
-    counter = defaultdict(int)
-    for i in hand:
-        if i != "J":
-            counter[str(i)] += 1
-    if countJs != 0:
-        print(hand)
-        maxNum = 0
-        chosen = ""
-        for k, v in counter.items():
-            if v > maxNum:
-                maxNum = v
-                chosen = k
-        hand = hand.replace("J", chosen)
-        print(hand)
-        print()
-    if countJs == 5:
-        hand = "22222"
+    if p2:
+        countJs = 0
+        for j in hand:
+            if j == 'J':
+                countJs += 1
+        counter = defaultdict(int)
+        for i in hand:
+            if i != "J":
+                counter[str(i)] += 1
+        if countJs != 0:
+            print(hand)
+            maxNum = 0
+            chosen = ""
+            for k, v in counter.items():
+                if v > maxNum:
+                    maxNum = v
+                    chosen = k
+            hand = hand.replace("J", chosen)
+            print(hand)
+            print()
+        if countJs == 5:
+            hand = "22222"
     handSet = list(set(hand))
 
     if len(set(hand)) == 1:
@@ -99,7 +101,7 @@ for line in data:
 
 
 for p in pairs:
-    addHandToRankSet(p)
+    addHandToRankSet(p, False)
 
 allSets = [five_of_a_kind, four_of_a_kind, full_house,  three_of_a_kind, twoPairs, onePairs, noWins]
 
@@ -114,12 +116,12 @@ allHandsSorted = []
 for a in allSets:
     for handdi in a:
         handdi['sort'] = [SORT_ORDER[key] for key in handdi['hand']]
-        
+
 for d in allSets:
     for y in sorted(d, key=gethand):
         allHandsSorted.append(y)
 total_sum = 0
 print(len(allHandsSorted)-1)
 for ix in range(len(allHandsSorted)-1, -1 , - 1):
-    total_sum += allHandsSorted[len(allHandsSorted)-1-ix]['bid']*(ix+1)
+    total_sum += allHandsSorted[ix]['bid']*(ix+1)
 print(total_sum)

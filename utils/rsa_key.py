@@ -46,20 +46,11 @@ def calculate_private_key(e, phi_n):
     d = mod_inverse(e, phi_n)
     return d
 
-# Function for modular inverse
-def mod_inverse(a, m):
-    m0, x0, x1 = m, 0, 1
-    while a > 1:
-        q = a // m
-        m, a = a % m, m
-        x0, x1 = x1 - q * x0, x0
-    return x1 + m0 if x1 < 0 else x1
-
 # Example usage:
 p = 61
 q = 53
 n = p * q
-phi_n = (p - 1) * (q - 1)
+phi_n = (p - 1) * (q - 1) 
 e = 17  # Chosen public exponent
 
 # Calculate private key
