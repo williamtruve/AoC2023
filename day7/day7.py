@@ -1,28 +1,38 @@
 from collections import defaultdict
+from dataclasses import dataclass
 from aocd import get_data, submit
 import re
 import numpy as np
 from sympy import false
+
 ERROR = False
 import sys
 from tqdm import tqdm
-data = open("day7/input.txt","r").readlines()
 
-data = open("day7/test.txt","r").readlines()
+data = open("day7/input.txt", "r").readlines()
+
+data = open("day7/test.txt", "r").readlines()
 noWins = []
 onePairs = []
 twoPairs = []
 three_of_a_kind = []
-full_house  = []
+full_house = []
 four_of_a_kind = []
 five_of_a_kind = []
 
-def addHandToRankSet(handDict, p2 = True ):
-    hand = handDict['hand']
+
+@dataclass
+class MonkeY:
+    def __init__(self, x):
+        self.x = x
+
+
+def addHandToRankSet(handDict, p2=True):
+    hand = handDict["hand"]
     if p2:
         countJs = 0
         for j in hand:
-            if j == 'J':
+            if j == "J":
                 countJs += 1
         counter = defaultdict(int)
         for i in hand:
@@ -82,9 +92,11 @@ def addHandToRankSet(handDict, p2 = True ):
     else:
         noWins.append(handDict)
 
+
 pairs = []
 liens = []
 import sys
+
 for line in data:
     liens.append(line)
 
@@ -92,36 +104,59 @@ for line in data:
     line = line.strip().split()
     hand = line[0]
     bid = int(line[1])
-    tmpDict['hand'] = hand
-    tmpDict['bid'] = bid
-    tmpDict['sort'] = None
+    tmpDict["hand"] = hand
+    tmpDict["bid"] = bid
+    tmpDict["sort"] = None
 
     pairs.append(tmpDict)
-
 
 
 for p in pairs:
     addHandToRankSet(p, False)
 
-allSets = [five_of_a_kind, four_of_a_kind, full_house,  three_of_a_kind, twoPairs, onePairs, noWins]
+allSets = [
+    five_of_a_kind,
+    four_of_a_kind,
+    full_house,
+    three_of_a_kind,
+    twoPairs,
+    onePairs,
+    noWins,
+]
+
 
 def gethand(dicte):
-    return dicte['sort']
+    return dicte["sort"]
 
-#SORT_ORDER = {"A": 0, "K": 1, "Q": 2 , "J": 3, "T": 4,"9": 5,"8": 6,"7": 7,"6": 8,"5": 9,"4": 10, "3": 11,"2": 12}
-SORT_ORDER = {"A": 0, "K": 1, "Q": 2 , "T": 3,"9": 4,"8": 5,"7": 6,"6": 7,"5": 8,"4": 9, "3": 10,"2": 11, "J": 12}
+
+# SORT_ORDER = {"A": 0, "K": 1, "Q": 2 , "J": 3, "T": 4,"9": 5,"8": 6,"7": 7,"6": 8,"5": 9,"4": 10, "3": 11,"2": 12}
+SORT_ORDER = {
+    "A": 0,
+    "K": 1,
+    "Q": 2,
+    "T": 3,
+    "9": 4,
+    "8": 5,
+    "7": 6,
+    "6": 7,
+    "5": 8,
+    "4": 9,
+    "3": 10,
+    "2": 11,
+    "J": 12,
+}
 
 
 allHandsSorted = []
 for a in allSets:
     for handdi in a:
-        handdi['sort'] = [SORT_ORDER[key] for key in handdi['hand']]
+        handdi["sort"] = [SORT_ORDER[key] for key in handdi["hand"]]
 
 for d in allSets:
     for y in sorted(d, key=gethand):
         allHandsSorted.append(y)
 total_sum = 0
-print(len(allHandsSorted)-1)
-for ix in range(len(allHandsSorted)-1, -1 , - 1):
-    total_sum += allHandsSorted[ix]['bid']*(ix+1)
+print(len(allHandsSorted) - 1)
+for ix in range(len(allHandsSorted) - 1, -1, -1):
+    total_sum += allHandsSorted[ix]["bid"] * (ix + 1)
 print(total_sum)
